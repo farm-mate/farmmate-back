@@ -1,0 +1,13 @@
+{
+	"login_error": "Invalid username or password",
+	"signup_duplicated_email": "Duplicated Email",
+	"signup_duplicated_nickname": "Duplicated Nickname",
+	"user_not_valid_email": "Must be a valid email",
+	"user_email_required": "Email is required",
+	"user_nickname_required": "Nickname is required",
+	"user_password_required": "Password is required",
+	"user_password_too_short": "Password is too short - should be 6 chars minimum.",
+	"user_password_only_latin_letters": "Password can only contain Latin letters.",
+	"user_password_not_match": "Passwords must match",
+	"jwt_expired": "jwt expired"
+}
