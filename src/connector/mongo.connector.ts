@@ -3,7 +3,10 @@ import mongoose from "mongoose";
 import mariaDB from "mariadb";
 import * as dotenv from "dotenv";
 import log from "../utils/logger";
+
 dotenv.config();
+
+mongoose.set("strictQuery", true);
 
 export async function mongodbConnect(option?: string): Promise<void> {
 	const noSqldbUri = process.env.MONGO_URI as string;

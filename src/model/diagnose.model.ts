@@ -1,5 +1,5 @@
-import mongoose from 'mongoose';
-import { plantDocument } from './plant.model';
+// import mongoose from 'mongoose';
+// import { plantDocument } from './plant.model';
 
 
-export default diagnose;
+// export default diagnose;
