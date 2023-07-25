@@ -1,6 +1,5 @@
 import { Express, Request, Response, NextFunction } from "express";
 import plant from "./plant";
-import plantDiary from "./plantDiary";
 
 export default async function (app: Express) {
 	console.log("routes function is called"); // 추가된 console.log 문
@@ -23,6 +22,5 @@ export default async function (app: Express) {
 		})
 	});
 	plant(app);
-	plantDiary(app);
 }
 
