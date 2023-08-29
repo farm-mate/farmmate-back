@@ -33,8 +33,7 @@ import { plantDocument } from "../../../model/plant.model";
 
 export async function registerPlantController(req: Request, res: Response, next: NextFunction) {
 	try {
-		const plantInfo = get(req.body, "plantInfo");
-		const registerPlant = await registerPlantService(plantInfo);
+		const registerPlant = await registerPlantService(req.body);
 		return res.send(registerPlant);
 	} catch (e) {
 		log.error(`registerPlantController: ${e}`);
