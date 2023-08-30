@@ -10,5 +10,6 @@ export async function registerDeviceService (
     deviceId : DocumentDefinition<deviceDocument>
 ) {
     let result = await Device.create(deviceId);
+    console.log("check device result:", result);
     return result;
 }
