@@ -1,9 +1,11 @@
 import mongoose from 'mongoose';
 import { plantDiaryDocument } from './plantDiary.model';
+import { deviceDocument } from "./device.model";
 import * as dotenv from "dotenv";
 dotenv.config();
 
 export interface plantDocument extends mongoose.Document {
+  deviceId: deviceDocument["deviceId"];
   plantType?: string;
   plantNickname?: string;
   plantLocation?: string;
@@ -18,6 +20,7 @@ export interface plantDocument extends mongoose.Document {
 }
 
 export interface plantProfile {
+  deviceId: string;
   plantType?: string;
   plantNickname?: string;
   plantLocation?: string;
@@ -30,8 +33,13 @@ export interface plantProfile {
 }
 
 
-const plantSchema = new mongoose.Schema(
+const plantSchema = new mongoose.Schema<plantDocument>(
   {
+    deviceId: {
+      type : String,
+      required: true,
+      ref: "Device",
+    },
     plantType: { type: String, required: true },
     plantNickname: { type: String },
     plantLocation: { type: String, required: true },

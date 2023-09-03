@@ -17,64 +17,81 @@ export async function registerPlantService(
 }
 
 export async function getPlantInfoService(
+    // deviceId: string,
+    // plantId : string,
     query: FilterQuery<plantDocument>
 ) {
+    try {
+        // const query: FilterQuery<plantDocument> = {
+        //     deviceId,
+        //     _id : plantId
+        // };
+
+        const plantInfo = await Plant.findOne(query).lean();
+        return plantInfo;
+
+    } catch (e) {
+        throw new Error(`getPlantInfoService Error: ${e}`);
+    }
     return await Plant.findOne(query).lean();
 }
 
-// export async function getPlantListService(
-//     skip: number,
-//     limit: number,
-//     search: string,
-//     filter: string,
-// ) {
-//     let data;
-//     if (search) {
-//         data = await Plant.aggregate([
-//             {
-//                 $search: {
-//                     index: "plantSearchIndex",
-//                     text: {
-//                         query: `\"${filter}\"`,
-// 						path: {
-// 							wildcard: "*",
-// 						},
-//                     },
-//                 },
-//             },
-//         ])
-//             .sort({ _id: -1 })
-//             .skip(skip)
-//             .limit(limit);
-//     } else {
-// 		data = await Plant.find().sort({ _id: -1 }).skip(skip).limit(limit);
-//     }
+export async function getPlantListService(
+    deviceId : string,
+    skip: number,
+    limit: number,
+    search: string,
+    filter: string,
+) {
+    let data;
+    // let query: any = {};
+    if (search) {
+        data = await Plant.aggregate([
+            {
+                $search: {
+                    index: "plantSearchIndex",
+                    text: {
+                        query: `\"${filter}\"`,
+						path: {
+							wildcard: "*",
+                            // "deviceId", 
+						},
+                    },
+                },
+            },
+        ])
+            .sort({ _id: -1 })
+            .skip(skip)
+            .limit(limit);
+    } else {
+		data = await Plant.find().sort({ _id: -1 }).skip(skip).limit(limit);
+    }
 
-//     if (filter) {
-//         data = await Plant.find({plantType : filter})
-//             .sort({ createdAt : -1 })
-//             .skip(skip)
-//             .limit(limit);
-//     } else {
-//         data = await Plant.find().sort({ _id: -1 }).skip(skip).limit(limit);
+    if (filter) {
+        data = await Plant.find({plantType : filter})
+            .sort({ createdAt : -1 })
+            .skip(skip)
+            .limit(limit);
+    } else {
+        data = await Plant.find().sort({ _id: -1 }).skip(skip).limit(limit);
 
-//     }
-//     const result = await Promise.all(
-// 		data.map(async (element: any) => {
-// 			// const latestDocument = await getLatestDeviceLogService({
-// 			// 	deviceId: element.deviceId,
-// 			// });
-// 			return { ...element.plantType };
-// 		})
-// 	);
-// 	const count = await Plant.find({plantType : filter}).count();
+    }
+    const result = await Promise.all(
+		data.map(async (element: any) => {
+			// const latestDocument = await getLatestDeviceLogService({
+			// 	deviceId: element.deviceId,
+			// });
+			return { ...element.plantType };
+		})
+	);
+	const count = await Plant.find({plantType : filter}).count();
 
-// 	const returnData = {
-// 		data: data,
-// 		total: count,
-// 	};
-// 	return returnData;
-// }
+	const returnData = {
+		data: data,
+		total: count,
+	};
+	return returnData;
+}
 
 // export async function getAllPlantListService() {
 //     return await Plant.aggregate([
@@ -89,6 +106,7 @@ export async function getPlantInfoService(
 // }
 
 export async function editPlantInfoService (
+    deviceId: string,
     query : string,
 	data: plantProfile
 ) {
